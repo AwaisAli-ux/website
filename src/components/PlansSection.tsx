@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check } from "lucide-react";
 import CheckoutModal from "@/components/CheckoutModal";
 
-/* ── Pricing data (exact match from smartcaretv.com) ── */
+/* ── Pricing data (exact match from smartcaretv.net) ── */
 const plans = [
   {
     label: "1 Month",
@@ -250,3 +250,4 @@ const PlansSection = () => {
 };
 
 export default PlansSection;
+

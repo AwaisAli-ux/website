@@ -138,7 +138,7 @@ const RefundPolicySection = () => {
               </a>
               <div className="flex flex-col p-4 rounded-2xl bg-black/20 border border-white/5">
                 <span className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-1">Website</span>
-                <span className="text-sm font-bold text-foreground">smartcaretv.com</span>
+                <span className="text-sm font-bold text-foreground">smartcaretv.net</span>
               </div>
             </div>
           </motion.div>
@@ -149,3 +149,4 @@ const RefundPolicySection = () => {
 };
 
 export default RefundPolicySection;
+
