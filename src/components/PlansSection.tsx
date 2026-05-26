@@ -56,10 +56,16 @@ const features = [
   "24/7 Technical Support",
 ];
 
+interface SelectedPlanType {
+  name: string;
+  price: string;
+  period: string;
+}
+
 /* ── Component ── */
 const PlansSection = () => {
   const [selectedDevices, setSelectedDevices] = useState(1);
-  const [selectedPlan, setSelectedPlan] = useState<any>(null);
+  const [selectedPlan, setSelectedPlan] = useState<SelectedPlanType | null>(null);
 
   return (
     <>
