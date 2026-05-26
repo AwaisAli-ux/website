@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, MessageSquare, Clock, Facebook, Instagram, Send, Loader2 } from "lucide-react";
+import { Mail, MessageSquare, Clock, Facebook, Instagram, ShieldCheck, Sparkles, Activity, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg 
@@ -27,58 +26,8 @@ const socialLinks = [
 ];
 
 const ContactSection = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: ""
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!formData.name || !formData.email || !formData.message) {
-      toast.error("Please fill in all fields.");
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch("https://formspree.io/f/zentalkbpous@gmail.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        toast.success("Message sent successfully!", {
-          description: "Our team will get back to you within 2 hours.",
-          duration: 5000,
-        });
-        setFormData({ name: "", email: "", message: "" });
-      } else {
-        throw new Error("Failed to send message");
-      }
-    } catch (error) {
-      // Formspree requires verification sometimes, but often it works if submitted to direct email
-      // If it fails, we fall back to a simulation with a success toast because the UI needs to feel good
-      console.error("Form error:", error);
-      toast.success("Message sent successfully!", {
-        description: "Your message has been received by our support team.",
-        duration: 5000,
-      });
-      setFormData({ name: "", email: "", message: "" });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const handleOpenLiveWebChat = () => {
+    window.dispatchEvent(new CustomEvent("open-live-chat"));
   };
 
   return (
@@ -142,65 +91,86 @@ const ContactSection = () => {
             </div>
           </motion.div>
 
-          {/* Contact Form */}
+          {/* Quick Activation & Support Hub */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="rounded-3xl border border-white/5 bg-card/40 backdrop-blur-xl p-8 md:p-10 shadow-2xl"
+            className="rounded-3xl border border-primary/20 bg-card/40 backdrop-blur-xl p-8 md:p-10 shadow-2xl relative overflow-hidden"
           >
-            <h3 className="mb-6 text-xl font-bold text-foreground">Send us a message</h3>
-            <form className="space-y-4" onSubmit={handleSubmit}>
+            {/* Ambient background glow */}
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative z-10 flex flex-col h-full justify-between">
               <div>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder="Your Name"
-                  required
-                  className="w-full rounded-xl border border-white/5 bg-secondary/50 px-5 py-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                />
+                <h3 className="mb-2 text-2xl font-bold text-foreground flex items-center gap-2">
+                  <Sparkles className="h-5 w-5 text-primary animate-pulse" /> Live Support Hub
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6 font-medium">
+                  Skip the emails and wait times. Connect with our official support team immediately for instant subscriptions, plan activation, or setup assistance.
+                </p>
+
+                {/* Support Status Pulsing Banner */}
+                <div className="mb-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="relative flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                    </span>
+                    <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
+                      Operators Online Now
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">
+                    Response: &lt; 2 mins
+                  </span>
+                </div>
+
+                {/* Features list */}
+                <div className="space-y-4 mb-8">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-1 h-7 w-7 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 border border-primary/15">
+                      <ShieldCheck className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-foreground">Secure Billing Support</h4>
+                      <p className="text-[11px] text-muted-foreground font-medium">Safe order entry and encrypted conversations.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="mt-1 h-7 w-7 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 border border-primary/15">
+                      <Activity className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-foreground">5-Min Instant Activation</h4>
+                      <p className="text-[11px] text-muted-foreground font-medium">Subscriptions are dispatched immediately post-payment.</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="Your Email"
-                  required
-                  className="w-full rounded-xl border border-white/5 bg-secondary/50 px-5 py-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                />
+
+              {/* CTAs */}
+              <div className="space-y-3">
+                <a
+                  href="https://wa.me/14094193052"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full h-14 bg-emerald-600 hover:bg-emerald-500 active:scale-[0.99] text-white font-bold text-xs uppercase tracking-wider shadow-[0_4px_20px_rgba(16,185,129,0.3)] hover:opacity-90 transition-all flex items-center justify-center gap-2 rounded-2xl cursor-pointer"
+                >
+                  <MessageCircle className="h-4 w-4 fill-white" />
+                  Chat on WhatsApp Priority
+                </a>
+
+                <Button
+                  onClick={handleOpenLiveWebChat}
+                  className="w-full h-14 gradient-primary border-0 text-white font-bold text-xs uppercase tracking-wider shadow-[0_4px_20px_rgba(243,38,42,0.3)] hover:opacity-90 active:scale-[0.99] transition-all flex items-center justify-center gap-2 rounded-2xl"
+                >
+                  <MessageSquare className="h-4 w-4" />
+                  Start Live Web Chat
+                </Button>
               </div>
-              <div>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  rows={4}
-                  placeholder="Your Message"
-                  required
-                  className="w-full rounded-xl border border-white/5 bg-secondary/50 px-5 py-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none resize-none transition-colors"
-                />
-              </div>
-              <Button 
-                disabled={isSubmitting}
-                className="w-full gradient-primary border-0 text-primary-foreground h-14 font-black uppercase tracking-widest text-xs glow-primary mt-2 flex items-center justify-center gap-2"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send className="h-4 w-4" />
-                    Send Message
-                  </>
-                )}
-              </Button>
-            </form>
+            </div>
           </motion.div>
         </div>
       </div>

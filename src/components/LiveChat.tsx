@@ -23,6 +23,16 @@ const LiveChat = () => {
 
   const WHATSAPP_NUMBER = "14094193052"; // +1 (409) 419-3052
 
+  // Listen for custom open events (e.g. from the ContactSection support hub)
+  useEffect(() => {
+    const handleOpenChat = () => {
+      setIsOpen(true);
+      setShowBadge(false);
+    };
+    window.addEventListener("open-live-chat", handleOpenChat);
+    return () => window.removeEventListener("open-live-chat", handleOpenChat);
+  }, []);
+
   // Scroll to bottom on open or new message
   useEffect(() => {
     if (messagesEndRef.current) {
