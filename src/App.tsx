@@ -11,6 +11,7 @@ import AboutUs from "./pages/AboutUs.tsx";
 import RefundPolicy from "./pages/RefundPolicy.tsx";
 import FAQ from "./pages/FAQ.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import LiveChat from "./components/LiveChat.tsx";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <LiveChat />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
